@@ -95,3 +95,27 @@ header nav a,header nav button{font-size:14px}.search-open{font-size:13px}
 .toc summary{font-size:15px}.toc a{font-size:14px;line-height:1.8}.related-group h3,.character-console .prose .related-group h3{font-size:16px}.related-links a,.related-links button{font-size:15px}.breadcrumb,.entry-pagination{font-size:13px}.region-heading p{font-size:15px;line-height:1.9}.region-open,.region-children>summary{font-size:14px}.scene-label>p,.home-page .scene-label>p{font-size:14px;line-height:1.7}.scene-label button{font-size:13px}#reference-content p,#reference-content .editor-note{font-size:16px;line-height:1.9}.character-copy blockquote{font-size:19px;line-height:1.9}
 @media(max-width:1100px){.archive-card h3{font-size:25px}.character-stage .person-entry p{font-size:15px}}
 @media(max-width:760px){body{font-size:15px}header nav a,header nav button{font-size:12px}.hero-copy p,.home-page .hero-copy p{font-size:16px}.catalog-intro p{font-size:15px}.category-tile strong{font-size:22px}.category-tile p{font-size:13px}.category-tile small{font-size:9px}.archive-card h3{font-size:25px}.archive-card .card-body p{font-size:15px}.reading-main>.prose,.character-console .prose{font-size:17px;line-height:1.95}.prose blockquote,.dossier-scroll>blockquote{font-size:17px}.reading-main>.prose h2,.character-console .prose h2{font-size:25px}.reading-main>.prose h3,.character-console .prose h3{font-size:21px}.file-properties dd,.person-properties dd{font-size:15px}.person-properties dl{grid-template-columns:80px minmax(0,1fr)}.person-relations>div{grid-template-columns:65px minmax(0,1fr)}.home-page .scene-label>p{font-size:12px}.toc a{font-size:13px}.character-console select{font-size:12px}.character-console-head label{font-size:12px}}
+/* Full-screen image viewer: no image frame, draggable canvas and adjustable scale. */
+dialog.image-viewer{position:fixed;inset:0;width:100vw;height:100dvh;max-width:none;max-height:none;margin:0;padding:0;border:0;border-radius:0;background:#02060a6b;overflow:hidden;-webkit-backdrop-filter:blur(18px) saturate(.65);backdrop-filter:blur(18px) saturate(.65)}
+dialog.image-viewer .dialog-head{position:fixed;z-index:4;top:18px;right:20px;padding:0;background:transparent}
+dialog.image-viewer .dialog-head>span{display:none}
+dialog.image-viewer .dialog-head button{width:42px;height:42px;border:1px solid #b9dced55;border-radius:0;background:#06101ada;color:var(--cyan);font-size:29px;line-height:1;clip-path:polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%)}
+dialog.image-viewer #reference-content,.full-image-viewer,.viewer-canvas{width:100%;height:100%}
+.viewer-canvas{display:grid;place-items:center;overflow:hidden;cursor:grab;touch-action:none}
+.viewer-canvas.is-dragging{cursor:grabbing}
+.viewer-canvas .image-full{display:block;max-width:min(94vw,1800px);max-height:90dvh;width:auto;height:auto;user-select:none;transform-origin:50% 50%;will-change:transform;filter:drop-shadow(0 18px 38px #0008)}
+.viewer-toolbar{position:fixed;z-index:4;left:50%;bottom:24px;display:flex;align-items:center;gap:12px;transform:translateX(-50%);padding:10px 16px;border:1px solid #a8cee44d;border-radius:4px;background:#06101ade;color:#dff5f3;backdrop-filter:blur(14px);font-size:12px}
+.viewer-toolbar label{display:flex;align-items:center;gap:10px;white-space:nowrap}.viewer-toolbar input{width:min(32vw,240px);accent-color:var(--cyan)}.viewer-zoom-value{min-width:42px;color:var(--cyan);font:11px Consolas,monospace;text-align:right}.viewer-hint{position:fixed;left:50%;bottom:76px;z-index:4;transform:translateX(-50%);margin:0;color:#b8ced4;font-size:12px;white-space:nowrap}
+@media(max-width:760px){dialog.image-viewer .dialog-head{top:12px;right:12px}.viewer-toolbar{bottom:18px;width:calc(100% - 40px);justify-content:center}.viewer-toolbar input{width:min(48vw,230px)}.viewer-hint{bottom:69px;font-size:11px}.viewer-canvas .image-full{max-width:96vw;max-height:84dvh}}
+/* Small controls use the archive's cut-corner panel language instead of rounded pills. */
+.back-button,.text-button,.outline{border-radius:0;clip-path:polygon(0 0,100% 0,100% calc(100% - 9px),calc(100% - 9px) 100%,0 100%)}
+.back-button{padding:10px 17px;background:linear-gradient(135deg,#122b3b,#06101a);border-left:2px solid var(--cyan)}
+.text-button,.outline{padding:9px 16px}
+.outline span,.primary span{border-radius:0;clip-path:polygon(0 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%)}
+/* Keep the title bar separate, then let the character stage fill the remaining viewport. */
+.character-stage{height:calc(100dvh - 230px);min-height:700px;max-height:none}
+/* Show the complete portrait again; author positioning remains available without a waist crop or fade. */
+.character-stage .person-art{top:15px;bottom:0}
+.character-stage .portrait-crop{overflow:visible;-webkit-mask-image:none;mask-image:none}
+.character-stage .standing-art{inset:auto;width:100%;max-width:none;height:100%;left:var(--portrait-offset-x,0%);top:var(--portrait-offset,0%);object-fit:contain;object-position:center bottom;transform:scale(var(--portrait-scale,1.45));transform-origin:50% 50%}
+@media(max-width:760px){.character-stage{height:auto;min-height:0}.character-stage .person-art{top:auto;bottom:auto}}
