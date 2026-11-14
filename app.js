@@ -71,6 +71,19 @@ function renderCharacter(id){
  $('#character-prose').innerHTML=body.html+(e.gallery?`<figure><img src="${escape(portraitURL(e.gallery))}" alt="${escape(e.galleryCaption||e.title)}"><figcaption>${escape(e.galleryCaption||'')}</figcaption></figure>`:'')+`<section class="related-panel"><h2>關聯檔案</h2>${groupedRelated(e)}</section>`;
  
  root.style.setProperty('--portrait-scale',String(e.portraitScale??1.45));root.style.setProperty('--portrait-offset',(e.portraitOffset??0)+'%');root.style.setProperty('--portrait-offset-x',(e.portraitOffsetX??0)+'%');
+ // Drag positions are stored as stage percentages, so a resized viewport keeps the same framing.
+ const positionKey='negentropy:portrait-position:'+e.id;
+ let savedPosition;try{savedPosition=JSON.parse(localStorage.getItem(positionKey)||'null');}catch{savedPosition=null;}
+ const position={x:Number.isFinite(savedPosition?.x)?savedPosition.x:(e.portraitOffsetX??0),y:Number.isFinite(savedPosition?.y)?savedPosition.y:(e.portraitOffset??0)};
+ const applyPosition=()=>{root.style.setProperty('--portrait-scale',String(e.portraitScale??1.45));root.style.setProperty('--portrait-offset',position.y+'%');root.style.setProperty('--portrait-offset-x',position.x+'%');};
+ applyPosition();
+ const crop=$('.portrait-crop');
+ if(crop){let dragging=null;crop.title='拖曳立繪以鎖定顯示位置';
+  crop.addEventListener('pointerdown',event=>{if(event.button!==undefined&&event.button!==0)return;dragging={x:event.clientX,y:event.clientY,startX:position.x,startY:position.y,width:crop.clientWidth,height:crop.clientHeight};crop.setPointerCapture(event.pointerId);crop.classList.add('is-dragging');event.preventDefault();});
+  crop.addEventListener('pointermove',event=>{if(!dragging)return;position.x=Math.max(-100,Math.min(100,dragging.startX+(event.clientX-dragging.x)/dragging.width*100));position.y=Math.max(-100,Math.min(100,dragging.startY+(event.clientY-dragging.y)/dragging.height*100));applyPosition();});
+  const finishDrag=event=>{if(!dragging)return;if(crop.hasPointerCapture(event.pointerId))crop.releasePointerCapture(event.pointerId);dragging=null;crop.classList.remove('is-dragging');localStorage.setItem(positionKey,JSON.stringify({x:Math.round(position.x*100)/100,y:Math.round(position.y*100)/100}));};
+  crop.addEventListener('pointerup',finishDrag);crop.addEventListener('pointercancel',finishDrag);
+ }
  $('#character-select').onchange=event=>navigate('#entry/'+event.target.value);
  const expand=$('#expand-character'),panel=$('#character-dossier'),properties=$('.person-properties'),entry=$('.person-entry');
  function setExpanded(open){root.scrollIntoView({behavior:'smooth',block:'start'});panel.hidden=!open;root.classList.toggle('is-expanded',open);expand.setAttribute('aria-expanded',String(open));properties.inert=open;properties.setAttribute('aria-hidden',String(open));entry.inert=open;entry.setAttribute('aria-hidden',String(open));if(open)$('#collapse-character').focus({preventScroll:true});else expand.focus({preventScroll:true});}
